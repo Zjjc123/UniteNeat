@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class Connections
+public class Connection
 {
     // Connection Properties
     private int _in;
@@ -11,13 +11,23 @@ public class Connections
     private int _innovation;
 
     // Constructor
-    public Connections(int inNode, int outNode, float weight, bool expressed, int innovation)
+    public Connection(int inNode, int outNode, float weight, bool expressed, int innovation)
     {
         _in = inNode;
         _out = outNode;
         _weight = weight;
         _expressed = expressed;
         _innovation = innovation;
+    }
+
+    // Copy Constructor
+    public Connection(Connection c)
+    {
+        _in = c.InNode;
+        _out = c.OutNode;
+        _weight = c.Weight;
+        _expressed = c.Expressed;
+        _innovation = c.Innovation;
     }
 
     // Getters and Setters
