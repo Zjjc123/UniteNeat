@@ -61,6 +61,7 @@ public class Connection
     public int Innovation
     {
         get { return _innovation; }
+        set { _innovation = value; }
     }
 
 }
