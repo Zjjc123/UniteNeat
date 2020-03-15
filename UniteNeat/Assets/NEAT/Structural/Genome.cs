@@ -256,6 +256,9 @@ public class Genome
 
     }
 
+
+
+
     // ==================================
     //              Helpers
     // ==================================
@@ -286,4 +289,45 @@ public class Genome
             }
         }
     }
+
+    // Getting Excess and Disjoint Genes to Calculate for Speciation
+    public static int GetExcessDisjoint(Genome g1, Genome g2)
+    {
+        int matching = 0;
+
+        foreach (KeyValuePair<int, Connection> c1 in g1.connections)
+        {
+            foreach (KeyValuePair<int, Connection> c2 in g2.connections)
+            {
+                if (c1.Value.Innovation == c2.Value.Innovation)
+                {
+                    matching++;
+                    break;
+                }
+            }
+        }
+        return (g1.connections.Count + g2.connections.Count - 2 * (matching));
+    }
+
+    // Getting the Weight Difference Average
+    public static float GetWeightDifferenceAverage(Genome g1, Genome g2)
+    {
+        float differenceSum = 0f;
+        int matching = 0;
+        foreach (KeyValuePair<int, Connection> c1 in g1.connections)
+        {
+            foreach (KeyValuePair<int, Connection> c2 in g2.connections)
+            {
+                if (c1.Value.Innovation == c2.Value.Innovation)
+                {
+                    differenceSum += Math.Abs(c1.Value.Weight - c2.Value.Weight);
+                    matching++;
+                    break;
+                }
+            }
+        }
+
+        return differenceSum / matching;
+    }
+
 }
