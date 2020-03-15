@@ -115,8 +115,8 @@ public class Genome
             if (tried.Count >= Nodes.Count * Nodes.Count)
                 return false;
 
-            int nodeInID = rand.Next(1, Nodes.Count);
-            int nodeOutID = rand.Next(1, Nodes.Count);
+            int nodeInID = rand.Next(1, Nodes.Count + 1);
+            int nodeOutID = rand.Next(1, Nodes.Count + 1);
 
             Tuple<int, int> t = new Tuple<int, int>(nodeInID, nodeOutID);
 
@@ -215,9 +215,46 @@ public class Genome
     // Node Mutation
     private void NodeMutation()
     {
+        var rand = new Random();
+        int r = rand.Next(0, Connections.Count);
+
+        int count = 0;
+
+        Connection newC = null;
+
+        foreach (Connection connection in Connections.Values)
+        {
+            if (count == r)
+            {
+                newC = connection;
+                break;
+            }
+            count++;
+        }
+
+        Node inNode = nodes[newC.InNode];
+        Node outNode = nodes[newC.OutNode];
+
+        // Disable orignal connection
+        newC.Disable();
+
+        // Create New Node
+        Node newNode = new Node(Node.NodeType.HIDDEN, nodes.Count + 1);
+
+        // In Connection
+        Connection inToNew = new Connection(inNode.Id, newNode.Id, 1f, true, 0);
+        History.AlterInnovationBasedOnHistory(inToNew);
+
+        // Out Connection
+        Connection newToOut = new Connection(newNode.Id, outNode.Id, newC.Weight, true, 0);
+        History.AlterInnovationBasedOnHistory(newToOut);
+
+        // Add to lists
+        nodes.Add(newNode.Id, newNode);
+        connections.Add(inToNew.Innovation, inToNew);
+        connections.Add(newToOut.Innovation, newToOut);
 
     }
-
 
     // ==================================
     //              Helpers
