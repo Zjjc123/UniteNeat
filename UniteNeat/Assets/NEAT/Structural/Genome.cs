@@ -9,12 +9,14 @@ public class Genome
     private SortedDictionary<int, Connection> connections;
 
     // Constants
-    private float PROBABILITY_PERTURBING = 0.9f;
-    private float PERTURB_MAX = 0.02f;
+    private const float PROBABILITY_PERTURBING = 0.9f;
+    private const float PERTURB_MAX = 0.02f;
 
     private const float WEIGHT_MUTATION_RATE = 0.01f;
     private const float NODE_MUTATION_RATE = 0.03f;
     private const float CONNECTION_MUTATION_RATE = 0.05f;
+
+    private const float ENABLE_CHANCE = 0.0f;
 
     // Constructor
     public Genome()
@@ -54,13 +56,27 @@ public class Genome
     }
 
     // Add Nodes and Connections
-    public void AddNode(Node n)
+    public void AddNodeCopy(Node n)
     {
-        nodes.Add(n.Id, n);
+        if (!nodes.ContainsKey(n.Id))
+        {
+            nodes.Add(n.Id, new Node(n));
+        }
+        else
+        {
+            throw new Exception("ERROR: Adding Two Nodes of the SAME ID");
+        }
     }
-    public void AddConnection(Connection c)
+    public void AddConnectionCopy(Connection c)
     {
-        connections.Add(c.Innovation, c);
+        if (!connections.ContainsKey(c.Innovation))
+        {
+            connections.Add(c.Innovation, new Connection(c));
+        }
+        else
+        {
+            throw new Exception("ERROR: Adding Two Connections of the SAME Innovation");
+        }
     }
 
     // ==================================
@@ -256,8 +272,120 @@ public class Genome
 
     }
 
+    // ==================================
+    //           Static Methods
+    // ==================================
 
+    public enum Fitter
+    {
+        Parent1, Parent2
+    }
 
+    public static Genome CrossOver(Genome parent1, Genome parent2, Fitter f)
+    {
+        Genome child = new Genome();
+
+        var rand = new Random();
+
+        // Add Disjoint and Excess Connections from Fitter Parent
+        if (f == Fitter.Parent1)
+        {
+            // Add all nodes from the fitter parent
+            foreach (Node n in parent1.Nodes.Values)
+            {
+                child.AddNodeCopy(n);
+            }
+            foreach (Connection c in parent1.Connections.Values)
+            {
+                if (!parent2.Connections.ContainsKey(c.Innovation))
+                {
+                    child.AddConnectionCopy(c);
+                }
+            }
+        }
+        else
+        {
+            foreach (Node n in parent2.Nodes.Values)
+            {
+                child.AddNodeCopy(n);
+            }
+            foreach (Connection c in parent2.Connections.Values)
+            {
+                if (!parent1.Connections.ContainsKey(c.Innovation))
+                {
+                    child.AddConnectionCopy(c);
+                }
+            }
+        }
+
+        // Go through again to add all the matching gene randomly
+        foreach (Connection c1 in parent1.Connections.Values)
+        {
+            foreach (Connection c2 in parent2.connections.Values)
+            {
+                // If matching gene --> pick randomly (50/50)
+                if (c1.Innovation == c2.Innovation)
+                {
+                    if (rand.Next(0, 2) == 0)
+                    {
+                        child.AddConnectionCopy(c1);
+                    }
+                    else
+                    {
+                        child.AddConnectionCopy(c2);
+                    }
+                }
+            }
+        }
+
+        return child;
+    }
+    // Getting Excess and Disjoint Genes to Calculate for Speciation
+    public static int GetExcessDisjoint(Genome g1, Genome g2)
+    {
+        int matching = 0;
+
+        foreach (KeyValuePair<int, Connection> c1 in g1.Connections)
+        {
+            foreach (KeyValuePair<int, Connection> c2 in g2.Connections)
+            {
+                if (c1.Value.Innovation == c2.Value.Innovation)
+                {
+                    matching++;
+                    break;
+                }
+            }
+        }
+        return (g1.Connections.Count + g2.Connections.Count - 2 * (matching));
+    }
+
+    // Getting the Weight Difference Average
+    public static float GetWeightDifferenceAverage(Genome g1, Genome g2)
+    {
+        float differenceSum = 0f;
+        int matching = 0;
+        foreach (KeyValuePair<int, Connection> c1 in g1.Connections)
+        {
+            foreach (KeyValuePair<int, Connection> c2 in g2.Connections)
+            {
+                if (c1.Value.Innovation == c2.Value.Innovation)
+                {
+                    differenceSum += Math.Abs(c1.Value.Weight - c2.Value.Weight);
+                    matching++;
+                    break;
+                }
+            }
+        }
+
+        return differenceSum / matching;
+    }
+
+    // Activation Function
+    public double Activation(double num)
+    {
+        return 1.0 / (1 + Math.Exp(-4.9 * num));
+        // return System.Math.Tanh(num);
+    }
 
     // ==================================
     //              Helpers
@@ -288,46 +416,6 @@ public class Genome
                 AddReachableNodes(OutNodesList, connection.OutNode);
             }
         }
-    }
-
-    // Getting Excess and Disjoint Genes to Calculate for Speciation
-    public static int GetExcessDisjoint(Genome g1, Genome g2)
-    {
-        int matching = 0;
-
-        foreach (KeyValuePair<int, Connection> c1 in g1.connections)
-        {
-            foreach (KeyValuePair<int, Connection> c2 in g2.connections)
-            {
-                if (c1.Value.Innovation == c2.Value.Innovation)
-                {
-                    matching++;
-                    break;
-                }
-            }
-        }
-        return (g1.connections.Count + g2.connections.Count - 2 * (matching));
-    }
-
-    // Getting the Weight Difference Average
-    public static float GetWeightDifferenceAverage(Genome g1, Genome g2)
-    {
-        float differenceSum = 0f;
-        int matching = 0;
-        foreach (KeyValuePair<int, Connection> c1 in g1.connections)
-        {
-            foreach (KeyValuePair<int, Connection> c2 in g2.connections)
-            {
-                if (c1.Value.Innovation == c2.Value.Innovation)
-                {
-                    differenceSum += Math.Abs(c1.Value.Weight - c2.Value.Weight);
-                    matching++;
-                    break;
-                }
-            }
-        }
-
-        return differenceSum / matching;
     }
 
 }
