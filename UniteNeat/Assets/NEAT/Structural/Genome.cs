@@ -482,6 +482,20 @@ public class Genome
         return output;
     }
 
+
+    // Debug Print
+    public static void DebugPrint(Genome genome)
+    {
+        foreach (KeyValuePair<int, Node> node in genome.Nodes)
+        {
+            UnityEngine.Debug.Log("ID: " + node.Value.Id + " NodeType: " + node.Value.Type);
+        }
+        foreach (KeyValuePair<int, Connection> connection in genome.Connections)
+        {
+            UnityEngine.Debug.Log("Innovation: " + connection.Value.Innovation + " In: " + connection.Value.InNode + " Out: " + connection.Value.OutNode + " Expressed: " + connection.Value.Expressed + " Weight: " + connection.Value.Weight);
+        }
+    }
+
     // Activation Function
     public double Activation(double num)
     {

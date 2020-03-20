@@ -37,7 +37,7 @@ public class Mutation : MonoBehaviour {
         }
 
         gameObject.GetComponent<GenomePrinter>().Draw(genome);
-        DebugPrint(genome);
+        Genome.DebugPrint(genome);
 
         History.SetInnovationDebug(3);
 
@@ -60,18 +60,7 @@ public class Mutation : MonoBehaviour {
     {
         genome.WeightMutation();
         gameObject.GetComponent<GenomePrinter>().Draw(genome);
-        DebugPrint(genome);
-    }
-
-    public void DebugPrint(Genome genome){
-        foreach (KeyValuePair<int, Node> node in genome.Nodes)
-        {
-            Debug.Log("ID: " + node.Value.Id + " NodeType: " + node.Value.Type);
-        }
-        foreach (KeyValuePair<int, Connection> connection in genome.Connections)
-        {
-            Debug.Log("Innovation: " + connection.Value.Innovation + " In: " + connection.Value.InNode + " Out: " + connection.Value.OutNode + " Expressed: " + connection.Value.Expressed + " Weight: " + connection.Value.Weight);
-        }
+        Genome.DebugPrint(genome);
     }
 
 }
