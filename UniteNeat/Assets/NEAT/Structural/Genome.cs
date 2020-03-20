@@ -55,6 +55,29 @@ public class Genome
     }
 
     // Add Nodes and Connections
+    public void AddNode(Node n)
+    {
+        if (!nodes.ContainsKey(n.Id))
+        {
+            nodes.Add(n.Id, n);
+        }
+        else
+        {
+            throw new Exception("ERROR: Adding Two Nodes of the SAME ID");
+        }
+    }
+    public void AddConnection(Connection c)
+    {
+        if (!connections.ContainsKey(c.Innovation))
+        {
+            connections.Add(c.Innovation, c);
+        }
+        else
+        {
+            throw new Exception("ERROR: Adding Two Connections of the SAME Innovation");
+        }
+    }
+
     public void AddNodeCopy(Node n)
     {
         if (!nodes.ContainsKey(n.Id))
@@ -90,7 +113,7 @@ public class Genome
     }
 
     // Weight Mutation
-    private void WeightMutation()
+    public void WeightMutation()
     {
         var rand = new Random();
 
@@ -116,7 +139,7 @@ public class Genome
     }
 
     // Connection Mutation
-    private bool ConnectionMutation()
+    public bool ConnectionMutation()
     {
         List<Tuple<int, int>> tried = new List<Tuple<int, int>>();
 
@@ -228,7 +251,7 @@ public class Genome
     }
 
     // Node Mutation
-    private void NodeMutation()
+    public void NodeMutation()
     {
         var rand = new Random();
         int r = rand.Next(0, Connections.Count);
@@ -511,5 +534,37 @@ public class Genome
         }
     }
 
+    // Give information to genome printer
+    public float[][] GetGeneDrawConnections(Genome genome)
+    {
+        int numberOfGenes = genome.Connections.Count; //copy gene count
+
+        float[][] connectionsDraw = null; //2D connections to return 
+
+        List<float[]> connectionList = new List<float[]>(); //empty connections list to fill with genome details
+
+        foreach (Connection connectionGene in genome.Connections.Values)
+        {
+            //do something by value....accessing item.value
+            Connection gene = connectionGene;
+
+            float[] details = new float[3]; //will copy in node Id, out node Id and weight
+
+            details[0] = gene.InNode; //copy in node Id
+            details[1] = gene.OutNode; //copy out node Id
+
+            if (gene.Expressed == true) //gene is enabled
+                details[2] = gene.Weight; //copy weight
+            else //gene is disabled
+                details[2] = 0f; //set to 0
+
+            connectionList.Add(details); //add detail to the connection list
+        }
+
+        connectionsDraw = connectionList.ToArray(); //convert connection list to 2D connection array
+
+        return connectionsDraw; //return 2D connection array
+
+    }
 
 }

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 
 public class History
 {
-    private static List<Connection> GenerationalHistory;
+    private static List<Connection> GenerationalHistory = new List<Connection>();
     private static int innovation = 0;
 
+    public static List<UnityEngine.Vector3> PrinterHistory = new List<UnityEngine.Vector3>();
     
     private static int IncrementAndGetInnovation()
     {
@@ -41,6 +42,24 @@ public class History
         
         GenerationalHistory.Add(newC);
         return;
+    }
+
+    // Add node to printer history
+    public static void AddNodeToPrinter(UnityEngine.Vector3 v)
+    {
+        PrinterHistory.Add(new UnityEngine.Vector3(v.x, v.y, v.z));
+    }
+
+    // ===================== DEBUG ===========================
+    public static void SetInnovationDebug(int i)
+    {
+        innovation = i;
+    }
+
+    // Add connection to innovation history
+    public static void AddConnectionToInnovationHistoryDebug(Connection c)
+    {
+        GenerationalHistory.Add(new Connection(c));
     }
 
 }
