@@ -474,9 +474,10 @@ public class Genome
             }
         }
 
-        foreach (Node endNod in nodes.Values)
+        foreach (Node endNode in nodes.Values)
         {
-            output.Add(endNod.Value);
+            if (endNode.Type == Node.NodeType.OUTPUT)
+                output.Add(endNode.Value);
         }
         ResetNodes();
         return output;
@@ -497,7 +498,7 @@ public class Genome
     }
 
     // Activation Function
-    public double Activation(double num)
+    public static double Activation(double num)
     {
         return 1.0 / (1 + Math.Exp(-4.9 * num));
         // return System.Math.Tanh(num);
