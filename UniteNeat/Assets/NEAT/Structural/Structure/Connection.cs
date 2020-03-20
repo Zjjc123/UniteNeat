@@ -10,6 +10,8 @@ public class Connection
     private bool _expressed;
     private int _innovation;
 
+    private bool _used = false;
+
     // Constructor
     public Connection(int inNode, int outNode, float weight, bool expressed, int innovation)
     {
@@ -62,6 +64,12 @@ public class Connection
     {
         get { return _innovation; }
         set { _innovation = value; }
+    }
+
+    public bool Used
+    {
+        get { return _used; }
+        set { _used = value; }
     }
 
 }

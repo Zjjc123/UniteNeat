@@ -26,11 +26,8 @@ public class Genome
     }
 
     // Copy Constructor
-    public Genome(Genome g)
+    public Genome(Genome g) : this()
     {
-        nodes = new SortedDictionary<int, Node>();
-        connections = new SortedDictionary<int, Connection>();
-
         foreach (KeyValuePair<int, Node> n in g.Nodes)
         {
             Node newNode = new Node(n.Value);
@@ -42,6 +39,8 @@ public class Genome
             Connection newConnection = new Connection(c.Value);
             connections.Add(c.Key, newConnection);
         }
+
+
     }
 
     // Getters and Setters
@@ -380,6 +379,86 @@ public class Genome
         return differenceSum / matching;
     }
 
+    // Forward Propagation
+    public List<float> ForwardPropagate(List<float> inputs)
+    {
+        ResetNodes();
+
+        List<float> output = new List<float>();
+
+        // Add input values to input nodes
+        for (int i = 1; i <= inputs.Count; i++)
+        {
+            nodes[i].Value = inputs[i-1];
+        }
+
+        // Continue until all nodes have been propagated
+        int total = 0;
+        while (total < nodes.Count - inputs.Count)
+        {
+            // Everytime check if previous nodes connecting into it has been propagated
+            // If they have then it's safe to propagate this node
+            foreach (Node node in nodes.Values)
+            {
+                int currentCalculatedConnections = 0;
+
+                // If has not been used and not input
+                if (!node.Used && node.Type != Node.NodeType.INPUT)
+                {
+                    // Get all connections going into the node
+                    List<Connection> InConnections = new List<Connection>();
+
+                    foreach (Connection connection in connections.Values)
+                    {
+                        if (connection.OutNode == node.Id)
+                        {
+                            InConnections.Add(connection);
+                        }
+                    }
+
+                    // Propagate all nodes connecting into the node if possible
+                    foreach (Connection connection in InConnections)
+                    {
+                        // If already propagated or is input --> safe to propagate
+                        if (nodes[connection.InNode].Used == true || nodes[connection.InNode].Type == Node.NodeType.INPUT)
+                        {
+                            // If has not been propagated yet
+                            if (connection.Used == false)
+                            {
+                                node.Value = nodes[connection.InNode].Value * connection.Weight + node.Value;
+                                connection.Used = true;
+                            }
+                        }
+                    }
+
+                    // Count up the used connections
+                    foreach (Connection connection in InConnections)
+                    {
+                        if (connection.Used == true)
+                        {
+                            currentCalculatedConnections++;
+                        }
+                    }
+                    
+                    // If all connections have been used --> finished propagating this node
+                    if (currentCalculatedConnections == InConnections.Count)
+                    {
+                        node.Used = true;
+                        node.Value = (float)Activation(node.Value);
+                        total++;
+                    }
+                }
+            }
+        }
+
+        foreach (Node endNod in nodes.Values)
+        {
+            output.Add(endNod.Value);
+        }
+        ResetNodes();
+        return output;
+    }
+
     // Activation Function
     public double Activation(double num)
     {
@@ -417,5 +496,20 @@ public class Genome
             }
         }
     }
+
+    // Clear nodes and connections for propagation
+    private void ResetNodes()
+    {
+        foreach (Node node in nodes.Values)
+        {
+            node.Value = 0;
+            node.Used = false;
+        }
+        foreach (Connection connection in connections.Values)
+        {
+            connection.Used = false;
+        }
+    }
+
 
 }

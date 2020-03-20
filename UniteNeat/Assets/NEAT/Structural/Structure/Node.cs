@@ -15,7 +15,9 @@ public class Node
     private NodeType _type;
     private int _id;
     private float _value = 0f;
-    
+
+    private bool _used = false;
+
     // Constructor
     public Node(NodeType type, int id)
     {
@@ -47,5 +49,9 @@ public class Node
         get { return _id; }
     }
 
-
+    public bool Used
+    {
+        get { return _used; }
+        set { _used = value; }
+    }
 }
