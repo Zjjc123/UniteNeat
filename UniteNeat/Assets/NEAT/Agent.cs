@@ -52,4 +52,10 @@ public class Agent : MonoBehaviour
         get { return _brain; }
         set { _brain = value; }
     }
+
+    public float Fitness
+    {
+        get { return _fitness; }
+        set { _fitness = value; }
+    }
 }

@@ -16,7 +16,7 @@ public class Genome
     private const float NODE_MUTATION_RATE = 0.03f;
     private const float CONNECTION_MUTATION_RATE = 0.05f;
 
-    private const float ENABLE_CHANCE = 0.0f;
+    private const float ENABLE_CHANCE = 0.25f;
 
     // Constructor
     public Genome()
@@ -108,8 +108,12 @@ public class Genome
     public void Mutate()
     {
         WeightMutation();
-        NodeMutation();
-        ConnectionMutation();
+
+        var rand = new Random();
+        if (rand.NextDouble() < NODE_MUTATION_RATE)
+            NodeMutation();
+        if (rand.NextDouble() < CONNECTION_MUTATION_RATE)
+            ConnectionMutation();
     }
 
     // Weight Mutation
@@ -355,6 +359,15 @@ public class Genome
                     else
                     {
                         child.AddConnectionCopy(c2);
+                    }
+                    // Randomly enable disabled inherited connection
+                    if (!c1.Expressed && !c2.Expressed)
+                    {
+                        double r = rand.NextDouble();
+                        if (r < ENABLE_CHANCE)
+                        {
+                            c2.Expressed = true;
+                        }
                     }
                 }
             }
