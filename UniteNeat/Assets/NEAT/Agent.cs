@@ -33,9 +33,6 @@ public class Agent : MonoBehaviour
                 genome.AddConnection(new Connection(i, input, 0f, true, ++inno));
             }
         }
-    
-        // TODO: Move to population later
-        History.SetInnovationDebug(inno);
     }
 
     public static Agent CreateChildrenThroughCrossOver(Agent parent1, Agent parent2, GameObject obj, Genome.Fitter f)
