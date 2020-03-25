@@ -12,7 +12,7 @@ public class Genome
     private const float PROBABILITY_PERTURBING = 0.9f;
     private const float PERTURB_MAX = 0.02f;
 
-    private const float WEIGHT_MUTATION_RATE = 0.01f;
+    private const float WEIGHT_MUTATION_RATE = 0.8f;
     private const float NODE_MUTATION_RATE = 0.03f;
     private const float CONNECTION_MUTATION_RATE = 0.05f;
 
@@ -107,9 +107,10 @@ public class Genome
 
     public void Mutate()
     {
-        WeightMutation();
-
         var rand = new Random();
+
+        if (rand.NextDouble() < NODE_MUTATION_RATE)
+            WeightMutation();
         if (rand.NextDouble() < NODE_MUTATION_RATE)
             NodeMutation();
         if (rand.NextDouble() < CONNECTION_MUTATION_RATE)
