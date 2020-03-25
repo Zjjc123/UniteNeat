@@ -6,8 +6,8 @@ using UnityEngine;
 public class Species
 {
     List<Agent> _agents = new List<Agent>();
-    private float bestFitness = 0;
-    private Genome champ;
+    private float _bestfitness = 0;
+    private Genome _champ;
 
     private float EXCESS_ADJOINT_COEFFICIENT = 1f;
     private float WEIGHT_DIFF_COEFFICIENT = 0.4f;
@@ -21,16 +21,16 @@ public class Species
 
     public Species(Agent a)
     {
-        bestFitness = a.Fitness;
-        champ = new Genome(a.Brain);
+        _bestfitness = a.Fitness;
+        _champ = new Genome(a.Brain);
     }
 
     // Calculate if the new genome is in the same species or not
     public bool SameSpecies(Genome g)
     {
         float compatibility;
-        float excessAndDisjoint = Genome.GetExcessDisjoint(g, champ);
-        float averageWeightDiff = Genome.GetWeightDifferenceAverage(g, champ);
+        float excessAndDisjoint = Genome.GetExcessDisjoint(g, _champ);
+        float averageWeightDiff = Genome.GetWeightDifferenceAverage(g, _champ);
 
 
         float largeGenomeNormaliser = g.Connections.Count - 20;
@@ -83,18 +83,18 @@ public class Species
     {
         _agents.Add(a);
 
-        if (a.Fitness > bestFitness)
+        if (a.Fitness > _bestfitness)
         {
-            bestFitness = a.Fitness;
+            _bestfitness = a.Fitness;
         }
     }
     // Sort Species based on fitness
     // Add to unimprovement
-    public void SortSpecies()
+    public void SortAgents()
     {
         _agents.Sort(new AgentComparer());
 
-        if (_agents[0].Fitness <= bestFitness)
+        if (_agents[0].Fitness <= _bestfitness)
             _unimproved++;
     }
 
@@ -121,10 +121,23 @@ public class Species
         }
     }
 
+    // Empty Species
+    public void Clear()
+    {
+        _agents.Clear();
+    }
+
+
     // Get Unimprovement
     public int Unimproved
     {
         get { return _unimproved; }
     }
 
+
+    // Get Best Fitness
+    public float BestFitness
+    {
+        get { return _bestfitness; }
+    }
 }
