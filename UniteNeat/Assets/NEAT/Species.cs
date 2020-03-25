@@ -17,6 +17,7 @@ public class Species
         champ = new Genome(a.Brain);
     }
 
+    // Calculate if the new genome is in the same species or not
     public bool SameSpecies(Genome g)
     {
         float compatibility;
@@ -37,11 +38,28 @@ public class Species
     public void AddToSpecies(Agent a)
     {
         _agents.Add(a);
-        
-        if (a.Fitness > bestFitness){
+
+        if (a.Fitness > bestFitness)
+        {
             bestFitness = a.Fitness;
         }
     }
+    // Sort Species based on fitness
+    public void SortSpecies()
+    {
+        _agents.Sort(new AgentComparer());
+    }
 
-
+    // Kill bottom half of species
+    public void Cull()
+    {
+        if (_agents.Count > 2)
+        {
+            for (int i = _agents.Count / 2; i < _agents.Count; i++)
+            {
+                _agents.RemoveAt(i);
+                i--;
+            }
+        }
+    }
 }

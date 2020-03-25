@@ -33,7 +33,7 @@ public class Agent : MonoBehaviour
                 genome.AddConnection(new Connection(i, input, 0f, true, ++inno));
             }
         }
-
+    
         // TODO: Move to population later
         History.SetInnovationDebug(inno);
     }
@@ -45,7 +45,6 @@ public class Agent : MonoBehaviour
         childAgent.Brain = Genome.CrossOver(parent1.Brain, parent2.Brain, f);
         return childAgent;
     }
-
 
     public Genome Brain
     {
