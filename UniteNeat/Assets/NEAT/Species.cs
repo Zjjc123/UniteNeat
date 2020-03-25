@@ -121,6 +121,18 @@ public class Species
         }
     }
 
+    // Find the average fitness of the species
+    public float AverageFitness()
+    {
+        float sum = 0;
+        for (int i = 0; i < _agents.Count; i++)
+        {
+            sum += _agents[i].Fitness;
+        }
+        return (sum / _agents.Count);
+        
+    }
+
     // Empty Species
     public void Clear()
     {
@@ -139,5 +151,11 @@ public class Species
     public float BestFitness
     {
         get { return _bestfitness; }
+    }
+
+    // Get Champion
+    public Genome Champion
+    {
+        get { return _champ; }
     }
 }
