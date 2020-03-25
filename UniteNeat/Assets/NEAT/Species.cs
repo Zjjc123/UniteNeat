@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Species
 {
@@ -10,8 +12,10 @@ public class Species
     private float EXCESS_ADJOINT_COEFFICIENT = 1f;
     private float WEIGHT_DIFF_COEFFICIENT = 0.4f;
     private float COMPATIBILITY_THRESHOLD = 3f;
-
+    
     private int UNIMPROVEMENT_MASSACRE = 15;
+
+    private float ONLY_MUTATION_RATE = 0.25f;
 
     private int _unimproved = 0;
 
@@ -37,6 +41,41 @@ public class Species
 
         compatibility = (EXCESS_ADJOINT_COEFFICIENT * excessAndDisjoint / largeGenomeNormaliser) + (WEIGHT_DIFF_COEFFICIENT * averageWeightDiff);
         return (COMPATIBILITY_THRESHOLD > compatibility);
+    }
+
+    // Select a random agent
+    public Agent SelectRandomAgent()
+    {
+        var rand = new System.Random();
+        int i = rand.Next(0, _agents.Count);
+        return _agents[i];
+    }
+
+    // Generate Offspring
+    public Agent GenerateOffspring(GameObject offspringObject)
+    {
+        var rand = new System.Random();
+        Agent child;
+        
+        // Only mutation
+        if (rand.NextDouble() < ONLY_MUTATION_RATE)
+        {
+            GameObject offspring = GameObject.Instantiate(offspringObject, Vector3.zero, Quaternion.identity);
+            Agent randomAgent = SelectRandomAgent();
+            offspring.GetComponent<Agent>().Brain = new Genome(randomAgent.Brain);
+            child = offspring.GetComponent<Agent>();
+        }
+        else
+        {
+            Agent parent1 = SelectRandomAgent();
+            Agent parent2 = SelectRandomAgent();
+
+            if (parent1.Fitness > parent2.Fitness)
+                child = Agent.CreateChildrenThroughCrossOver(parent1, parent2, offspringObject, Genome.Fitter.Parent1);
+            else
+                child = Agent.CreateChildrenThroughCrossOver(parent1, parent2, offspringObject, Genome.Fitter.Parent2);
+        }
+        return child;
     }
 
     // Add new genome to species and update fitness if possible
