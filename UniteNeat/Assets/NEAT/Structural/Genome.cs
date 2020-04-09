@@ -8,15 +8,14 @@ public class Genome
     private SortedDictionary<int, Node> nodes;
     private SortedDictionary<int, Connection> connections;
 
-    // Constants
-    private const float PROBABILITY_PERTURBING = 0.9f;
-    private const float PERTURB_MAX = 0.02f;
+    public static float PROBABILITY_PERTURBING;
+    public static float PERTURB_MAX;
 
-    private const float WEIGHT_MUTATION_RATE = 0.8f;
-    private const float NODE_MUTATION_RATE = 0.03f;
-    private const float CONNECTION_MUTATION_RATE = 0.05f;
+    public static float WEIGHT_MUTATION_RATE;
+    public static float NODE_MUTATION_RATE;
+    public static float CONNECTION_MUTATION_RATE;
 
-    private const float ENABLE_CHANCE = 0.25f;
+    public static float ENABLE_CHANCE;
 
     // Constructor
     public Genome()

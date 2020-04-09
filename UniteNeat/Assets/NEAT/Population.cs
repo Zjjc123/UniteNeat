@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,10 +9,9 @@ public class Population : MonoBehaviour
     private List<Species> _species = new List<Species>();
 
     // Agent Prefab
-    [SerializeField]
-    public GameObject AgentObject;
+    public static GameObject AgentObject;
 
-    private int UNIMPROVED_KILL = 15;
+    public static int UNIMPROVED_KILL;
 
     // Initialize a population
     public void Initialize(int input, int output, int size)

@@ -9,13 +9,11 @@ public class Species
     private float _bestfitness = 0;
     private Genome _champ;
 
-    private float EXCESS_ADJOINT_COEFFICIENT = 1f;
-    private float WEIGHT_DIFF_COEFFICIENT = 0.4f;
-    private float COMPATIBILITY_THRESHOLD = 3f;
-    
-    private int UNIMPROVEMENT_MASSACRE = 15;
+    public static float EXCESS_ADJOINT_COEFFICIENT;
+    public static float WEIGHT_DIFF_COEFFICIENT;
+    public static float COMPATIBILITY_THRESHOLD;
 
-    private float ONLY_MUTATION_RATE = 0.25f;
+    public static float ONLY_MUTATION_RATE;
 
     private int _unimproved = 0;
 
