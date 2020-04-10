@@ -10,6 +10,8 @@ public class Agent : MonoBehaviour
     List<float> vision = new List<float>();
     List<float> decision = new List<float>();
 
+    private bool _dead = false;
+
     public void Initialize(int input, int output)
     {
         Genome genome = new Genome();
@@ -53,5 +55,10 @@ public class Agent : MonoBehaviour
     {
         get { return _fitness; }
         set { _fitness = value; }
+    }
+
+    public bool Dead()
+    {
+        return _dead;
     }
 }

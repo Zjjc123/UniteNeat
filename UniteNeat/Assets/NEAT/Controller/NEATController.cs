@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class NEATController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Population population;
+    public int Generation = 1;
+
+    public void Initialize(int Input, int Output, int Size)
     {
-        
+        population = new Population(Input, Output, Size);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void NaturalSelection()
     {
-        
+        population.NaturalSelection();
     }
+
+    private void Update()
+    {
+        if (population.Over())
+        {
+            NaturalSelection();
+            Generation++;
+        }
+    }
+
 }

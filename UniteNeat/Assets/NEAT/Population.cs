@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Population : MonoBehaviour
+public class Population
 {
     private List<Agent> _population  = new List<Agent>();
     private List<Species> _species = new List<Species>();
@@ -14,11 +14,11 @@ public class Population : MonoBehaviour
     public static int UNIMPROVED_KILL;
 
     // Initialize a population
-    public void Initialize(int input, int output, int size)
+    public Population(int input, int output, int size)
     {
         for (int i = 0; i < size; i++)
         {
-            GameObject agent = Instantiate(AgentObject, Vector3.zero, Quaternion.identity);
+            GameObject agent = GameObject.Instantiate(AgentObject, Vector3.zero, Quaternion.identity);
             _population.Add(agent.GetComponent<Agent>());
             agent.GetComponent<Agent>().Initialize(input, output);
         }
@@ -114,7 +114,7 @@ public class Population : MonoBehaviour
         List<Agent> children = new List<Agent>();
 
         // Copy Champion from last generation
-        GameObject champGo = Instantiate(AgentObject, Vector3.zero, Quaternion.identity);
+        GameObject champGo = GameObject.Instantiate(AgentObject, Vector3.zero, Quaternion.identity);
         // Set to Red
         champGo.GetComponent<SpriteRenderer>().color = Color.red;
         // Move to front
@@ -153,5 +153,15 @@ public class Population : MonoBehaviour
     {
         foreach (Agent a in _population)
             a.Brain.Mutate();
+    }
+
+    public bool Over()
+    {
+        foreach (Agent a in _population)
+        {
+            if (a.Dead() == false)
+                return false;
+        }
+        return true;
     }
 }

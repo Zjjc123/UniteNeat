@@ -79,9 +79,9 @@ public class NEATControllerFactory
     {
         GameObject controllerObject = GameObject.Instantiate(AGENTOBJECT);
 
-        Population population = controllerObject.GetComponent<Population>();
+        NEATController controller = controllerObject.GetComponent<NEATController>();
 
-        population.Initialize(INPUT, OUTPUT, SIZE);
+        controller.Initialize(INPUT, OUTPUT, SIZE);
 
         // Genome
         Genome.PROBABILITY_PERTURBING = PROBABILITY_PERTURBING;
@@ -106,6 +106,6 @@ public class NEATControllerFactory
         Population.AgentObject = AGENTOBJECT;
 
 
-        return controllerObject.GetComponent<NEATController>();
+        return controller;
     }
 }
