@@ -15,13 +15,15 @@ public class Population
 
     public static int UNIMPROVED_KILL;
 
+    public static Vector3 SpawnLocation = new Vector3(0, 0, 5f);
+
     // Initialize a population
     public Population(int input, int output, int size, GameObject aO)
     {
         AgentObject = aO;
         for (int i = 0; i < size; i++)
         {
-            GameObject agent = GameObject.Instantiate(AgentObject, Vector3.zero, Quaternion.identity);
+            GameObject agent = GameObject.Instantiate(AgentObject, SpawnLocation, Quaternion.identity);
             _population.Add(agent.GetComponent<Agent>());
             agent.GetComponent<Agent>().Initialize(input, output);
         }
@@ -121,7 +123,7 @@ public class Population
         List<Agent> children = new List<Agent>();
 
         // Copy Champion from last generation
-        GameObject champGo = GameObject.Instantiate(AgentObject, Vector3.zero, Quaternion.identity);
+        GameObject champGo = GameObject.Instantiate(AgentObject, SpawnLocation, Quaternion.identity);
         // Move to front
         champGo.transform.position = new Vector3(champGo.transform.position.x, champGo.transform.position.y, champGo.transform.position.z - 0.1f);
         // Copy Brain

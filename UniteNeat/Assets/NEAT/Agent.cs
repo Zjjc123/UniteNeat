@@ -43,7 +43,7 @@ public class Agent : MonoBehaviour
 
     public static Agent CreateChildrenThroughCrossOver(Agent parent1, Agent parent2, GameObject obj, Genome.Fitter f)
     {
-        GameObject child = Instantiate(obj, Vector3.zero, Quaternion.identity);
+        GameObject child = Instantiate(obj, Population.SpawnLocation, Quaternion.identity);
         Agent childAgent = child.GetComponent<Agent>();
         childAgent.Brain = Genome.CrossOver(parent1.Brain, parent2.Brain, f);
         return childAgent;

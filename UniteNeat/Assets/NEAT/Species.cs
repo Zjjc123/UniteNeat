@@ -58,7 +58,7 @@ public class Species
         // Only mutation
         if (rand.NextDouble() < ONLY_MUTATION_RATE)
         {
-            GameObject offspring = GameObject.Instantiate(offspringObject, Vector3.zero, Quaternion.identity);
+            GameObject offspring = GameObject.Instantiate(offspringObject, Population.SpawnLocation, Quaternion.identity);
             Agent randomAgent = SelectRandomAgent();
             offspring.GetComponent<Agent>().Brain = new Genome(randomAgent.Brain);
             child = offspring.GetComponent<Agent>();
