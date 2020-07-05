@@ -14,8 +14,9 @@ public class Population
     public static int UNIMPROVED_KILL;
 
     // Initialize a population
-    public Population(int input, int output, int size)
+    public Population(int input, int output, int size, GameObject aO)
     {
+        AgentObject = aO;
         for (int i = 0; i < size; i++)
         {
             GameObject agent = GameObject.Instantiate(AgentObject, Vector3.zero, Quaternion.identity);
@@ -159,7 +160,7 @@ public class Population
     {
         foreach (Agent a in _population)
         {
-            if (a.Dead() == false)
+            if (!a.Dead())
                 return false;
         }
         return true;
