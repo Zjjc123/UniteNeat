@@ -5,12 +5,8 @@ using UnityEngine;
 public class NEATController : MonoBehaviour
 {
     public Population population;
-    public static GameObject AgentObject;
+    public GameObject AgentObject;
     public int Generation = 1;
-
-    private int INPUT = 1;
-    private int OUTPUT = 1;
-    private int SIZE = 100;
 
     // Genome
 
@@ -61,12 +57,14 @@ public class NEATController : MonoBehaviour
     public void Initialize(int Input, int Output, int Size)
     {
         population = new Population(Input, Output, Size, AgentObject);
+        _initialized = true;
     }
 
     private void Update()
     {
         if (!_initialized)
             return;
+
         if (population.Over())
         {
             NaturalSelection();

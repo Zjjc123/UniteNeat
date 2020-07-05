@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6917cb976d04094ca3908ccdaab807a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AgentObject: {fileID: 4508149584217914372, guid: 21f23271bbd6cfa4f90238c447f90b99,
+    type: 3}
+  Generation: 1
 --- !u!114 &2971765809506115451
 MonoBehaviour:
   m_ObjectHideFlags: 0

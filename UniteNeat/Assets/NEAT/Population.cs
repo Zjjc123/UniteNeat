@@ -116,8 +116,6 @@ public class Population
 
         // Copy Champion from last generation
         GameObject champGo = GameObject.Instantiate(AgentObject, Vector3.zero, Quaternion.identity);
-        // Set to Red
-        champGo.GetComponent<SpriteRenderer>().color = Color.red;
         // Move to front
         champGo.transform.position = new Vector3(champGo.transform.position.x, champGo.transform.position.y, champGo.transform.position.z - 0.1f);
         // Copy Brain

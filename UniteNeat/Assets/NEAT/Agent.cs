@@ -10,7 +10,8 @@ public class Agent : MonoBehaviour
     List<float> vision = new List<float>();
     List<float> decision = new List<float>();
 
-    private bool _dead = false;
+    private bool _dead;
+    private bool _initialized;
 
     public void Initialize(int input, int output)
     {
@@ -35,6 +36,9 @@ public class Agent : MonoBehaviour
                 genome.AddConnection(new Connection(i, input, 0f, true, ++inno));
             }
         }
+
+        _brain = genome;
+        _initialized = true;
     }
 
     public static Agent CreateChildrenThroughCrossOver(Agent parent1, Agent parent2, GameObject obj, Genome.Fitter f)
@@ -43,6 +47,11 @@ public class Agent : MonoBehaviour
         Agent childAgent = child.GetComponent<Agent>();
         childAgent.Brain = Genome.CrossOver(parent1.Brain, parent2.Brain, f);
         return childAgent;
+    }
+
+    public List<float> ForwardPropagate(List<float> inputs)
+    {
+        return Brain.ForwardPropagate(inputs);
     }
 
     public Genome Brain
@@ -60,5 +69,15 @@ public class Agent : MonoBehaviour
     public bool Dead()
     {
         return _dead;
+    }
+
+    public void Kill()
+    {
+        _dead = true;
+    }
+
+    public bool Initialized
+    {
+        get { return _initialized; }
     }
 }
