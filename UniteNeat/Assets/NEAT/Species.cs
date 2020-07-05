@@ -21,6 +21,7 @@ public class Species
     {
         _bestfitness = a.Fitness;
         _champ = new Genome(a.Brain);
+        _agents.Add(a);
     }
 
     // Calculate if the new genome is in the same species or not
@@ -54,7 +55,7 @@ public class Species
     {
         var rand = new System.Random();
         Agent child;
-        
+
         // Only mutation
         if (rand.NextDouble() < ONLY_MUTATION_RATE)
         {
@@ -128,7 +129,7 @@ public class Species
             sum += _agents[i].Fitness;
         }
         return (sum / _agents.Count);
-        
+
     }
 
     // Empty Species
@@ -155,5 +156,10 @@ public class Species
     public Genome Champion
     {
         get { return _champ; }
+    }
+
+    public int Count
+    {
+        get { return _agents.Count; }
     }
 }
