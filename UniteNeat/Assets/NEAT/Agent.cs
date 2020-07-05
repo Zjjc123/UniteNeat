@@ -33,7 +33,7 @@ public class Agent : MonoBehaviour
         {
             for (int j = input + 1; j <= output + input; j++)
             {
-                genome.AddConnection(new Connection(i, input, 0f, true, ++inno));
+                genome.AddConnection(new Connection(i, j, 0f, true, ++inno));
             }
         }
 
@@ -74,6 +74,7 @@ public class Agent : MonoBehaviour
     public void Kill()
     {
         _dead = true;
+        gameObject.tag = "Dead";
     }
 
     public bool Initialized

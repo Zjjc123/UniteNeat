@@ -57,6 +57,7 @@ public class NEATController : MonoBehaviour
     public void Initialize(int Input, int Output, int Size)
     {
         population = new Population(Input, Output, Size, AgentObject);
+        GetComponent<GenomePrinter>().Draw(population.Best);
         _initialized = true;
     }
 
@@ -69,6 +70,8 @@ public class NEATController : MonoBehaviour
         {
             NaturalSelection();
             Generation++;
+            population.DeleteLastGen();
+            GetComponent<GenomePrinter>().Draw(population.Best);
         }
     }
 

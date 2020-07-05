@@ -8,6 +8,8 @@ public class Population
     private List<Agent> _population  = new List<Agent>();
     private List<Species> _species = new List<Species>();
 
+    private Genome bestGenome;
+
     // Agent Prefab
     public static GameObject AgentObject;
 
@@ -24,6 +26,7 @@ public class Population
             agent.GetComponent<Agent>().Initialize(input, output);
         }
         History.SetInnovationDebug(input * output);
+        bestGenome = new Genome(_population[0].Brain);
     }
 
     // Naturally Select Agents
@@ -73,6 +76,9 @@ public class Population
         }
 
         _species.Sort(new SpeciesComparer());
+
+        // Copy over the best genome
+        bestGenome = new Genome(_species[0].Champion);
     }
 
     // Manipulate Each Species
@@ -163,4 +169,19 @@ public class Population
         }
         return true;
     }
+
+    public void DeleteLastGen()
+    {
+        GameObject[] delete = GameObject.FindGameObjectsWithTag("Dead");
+        for (int i = 0; i < delete.Length; i++)
+        {
+            GameObject.Destroy(delete[i]);
+        }
+    }
+
+    public Genome Best
+    {
+        get { return bestGenome; }
+    }
+
 }

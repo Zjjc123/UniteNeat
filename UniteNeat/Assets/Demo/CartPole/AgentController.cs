@@ -20,11 +20,16 @@ public class AgentController : MonoBehaviour
     List<float> inputs;
     List<float> outputs;
 
+    float StartTime;
+
     private void Start()
     {
         cartAgent = GetComponent<Agent>();
         inputs = new List<float>();
         outputs = new List<float>();
+        StartTime = Time.time;
+
+        poleJoint.transform.rotation = Quaternion.Euler(Vector3.right * 30);
     }
 
     void Update()
@@ -48,6 +53,8 @@ public class AgentController : MonoBehaviour
         outputs = cartAgent.ForwardPropagate(inputs);
         
         cartRB.AddForce(new Vector3(outputs[1] - outputs[0], 0));
+
+        cartAgent.Fitness = Time.time - StartTime;
 
         if (Mathf.Abs(poleAngle) > 90)
             cartAgent.Kill();
