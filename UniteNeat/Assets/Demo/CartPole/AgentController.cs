@@ -29,7 +29,13 @@ public class AgentController : MonoBehaviour
         outputs = new List<float>();
         StartTime = Time.time;
 
-        poleJoint.transform.rotation = Quaternion.Euler(Vector3.right * 30);
+        float randomAngle;
+
+        if (Random.Range(0, 2) > 0)
+            randomAngle = Random.Range(-40, -10);
+        else
+            randomAngle = Random.Range(10, 40);
+        poleJoint.transform.eulerAngles = new Vector3(0, 0, randomAngle);
     }
 
     void Update()

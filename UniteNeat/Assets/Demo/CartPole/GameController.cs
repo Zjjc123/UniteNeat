@@ -17,12 +17,16 @@ public class GameController : MonoBehaviour
         - Call Agents.Kill() if dead
     4. Agent
         - Drag Agent onto Agent Prefab
-
+    5. Genome Print
+        - Drag onto the same object as the NEAT Controller
     */
     NEATController c;
+
+    public int size = 100;
+
     void Start()
     {
         c = GetComponent<NEATController>();
-        c.Initialize(4, 2, 100);
+        c.Initialize(4, 2, size);
     }
 }

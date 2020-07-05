@@ -139,6 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fd9f61fc87ac374aa2e7e64c5abcff6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  size: 100
 --- !u!1 &726479783
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,6 +234,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GameController
+      objectReference: {fileID: 0}
+    - target: {fileID: 7196543281440110079, guid: f0f91fec2a26eb74f9a0f6965bcf5875,
+        type: 3}
+      propertyPath: Generation
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7643145010226624353, guid: f0f91fec2a26eb74f9a0f6965bcf5875,
         type: 3}
