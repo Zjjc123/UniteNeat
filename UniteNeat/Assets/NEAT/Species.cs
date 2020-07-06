@@ -158,7 +158,7 @@ public class Species
         get { return _champ; }
     }
 
-    public int Count
+    public int AgentCount
     {
         get { return _agents.Count; }
     }

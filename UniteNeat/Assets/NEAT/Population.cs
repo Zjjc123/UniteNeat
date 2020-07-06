@@ -40,6 +40,7 @@ public class Population
         KillUnimprovedSpecies();
         _population = GenerateOffspring(AgentObject);
         MutatePopulation();
+        InitializePopulation();
     }
 
     // Place Agents into Species
@@ -66,6 +67,13 @@ public class Population
                 _species.Add(new Species(a));
             }
         }
+        // Delete Empty Species
+        List<Species> emptySpecies = new List<Species>();
+        for (int i = 0; i < _species.Count; i++)
+            if (_species[i].AgentCount == 0)
+                emptySpecies.Add(_species[i]);
+        foreach (Species s in emptySpecies)
+            _species.Remove(s);
     }
 
     // Sorts the Agents within a species and the species by their fitnesses
@@ -186,4 +194,9 @@ public class Population
         get { return bestGenome; }
     }
 
+    public void InitializePopulation()
+    {
+        foreach (Agent a in _population)
+            a.Initialized = true;
+    }
 }

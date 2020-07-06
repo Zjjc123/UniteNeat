@@ -17,6 +17,8 @@ public class AgentController : MonoBehaviour
     float poleAngle;
     float poleRotationalVelocity;
 
+    bool _dead;
+
     List<float> inputs;
     List<float> outputs;
 
@@ -43,6 +45,9 @@ public class AgentController : MonoBehaviour
         if (!cartAgent.Initialized)
             return;
 
+        if (_dead)
+            return;
+                    
         inputs.Clear();
         outputs.Clear();
 
@@ -58,11 +63,14 @@ public class AgentController : MonoBehaviour
 
         outputs = cartAgent.ForwardPropagate(inputs);
         
-        cartRB.AddForce(new Vector3(outputs[1] - outputs[0], 0));
+        GetComponent<Rigidbody>().AddForce(new Vector3(outputs[1] - outputs[0] * 10, 0, 0));
 
         cartAgent.Fitness = Time.time - StartTime;
 
         if (Mathf.Abs(poleAngle) > 90)
+        {
             cartAgent.Kill();
+            _dead = true;
+        }
     }
 }

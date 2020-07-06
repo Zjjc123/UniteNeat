@@ -80,5 +80,6 @@ public class Agent : MonoBehaviour
     public bool Initialized
     {
         get { return _initialized; }
+        set { _initialized = value; }
     }
 }
