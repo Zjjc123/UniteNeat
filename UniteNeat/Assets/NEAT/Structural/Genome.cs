@@ -504,8 +504,8 @@ public class Genome
     // Activation Function
     public static double Activation(double num)
     {
-        return 1.0 / (1 + Math.Exp(-4.9 * num));
-        // return System.Math.Tanh(num);
+        // return 1.0 / (1 + Math.Exp(-4.9 * num));
+        return System.Math.Tanh(num);
     }
 
     // ==================================

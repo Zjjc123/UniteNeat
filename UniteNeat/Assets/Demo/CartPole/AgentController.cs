@@ -34,9 +34,9 @@ public class AgentController : MonoBehaviour
         float randomAngle;
 
         if (Random.Range(0, 2) > 0)
-            randomAngle = Random.Range(-40, -10);
+            randomAngle = Random.Range(-12f, -5f);
         else
-            randomAngle = Random.Range(10, 40);
+            randomAngle = Random.Range(5f, 12f);
         poleJoint.transform.eulerAngles = new Vector3(0, 0, randomAngle);
     }
 
@@ -63,11 +63,11 @@ public class AgentController : MonoBehaviour
 
         outputs = cartAgent.ForwardPropagate(inputs);
         
-        GetComponent<Rigidbody>().AddForce(new Vector3(10*(outputs[1] - outputs[0]), 0, 0));
+        GetComponent<Rigidbody>().AddForce(new Vector3(outputs[0], 0, 0));
 
         cartAgent.Fitness = Time.time - StartTime;
 
-        if (Mathf.Abs(poleAngle) > 90)
+        if (Mathf.Abs(poleAngle) > 20)
         {
             cartAgent.Kill();
             _dead = true;

@@ -27,6 +27,6 @@ public class GameController : MonoBehaviour
     void Start()
     {
         c = GetComponent<NEATController>();
-        c.Initialize(4, 2, size);
+        c.Initialize(4, 1, size);
     }
 }
