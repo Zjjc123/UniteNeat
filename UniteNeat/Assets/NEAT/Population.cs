@@ -13,8 +13,6 @@ public class Population
     // Agent Prefab
     public static GameObject AgentObject;
 
-    public static int UNIMPROVED_KILL;
-
     public static Vector3 SpawnLocation = new Vector3(0, 0, 5f);
 
     // Initialize a population
@@ -106,7 +104,7 @@ public class Population
     {
         for (int i = 2; i < _species.Count; i++)
         {
-            if (_species[i].Unimproved >= UNIMPROVED_KILL)
+            if (_species[i].Unimproved >= NEATController.UNIMPROVED_KILL)
             {
                 _species.RemoveAt(i);
                 i--;

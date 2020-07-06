@@ -9,12 +9,6 @@ public class Species
     private float _bestfitness = 0;
     private Genome _champ;
 
-    public static float EXCESS_ADJOINT_COEFFICIENT;
-    public static float WEIGHT_DIFF_COEFFICIENT;
-    public static float COMPATIBILITY_THRESHOLD;
-
-    public static float ONLY_MUTATION_RATE;
-
     private int _unimproved = 0;
 
     public Species(Agent a)
@@ -38,8 +32,8 @@ public class Species
             largeGenomeNormaliser = 1;
         }
 
-        compatibility = (EXCESS_ADJOINT_COEFFICIENT * excessAndDisjoint / largeGenomeNormaliser) + (WEIGHT_DIFF_COEFFICIENT * averageWeightDiff);
-        return (COMPATIBILITY_THRESHOLD > compatibility);
+        compatibility = (NEATController.EXCESS_ADJOINT_COEFFICIENT * excessAndDisjoint / largeGenomeNormaliser) + (NEATController.WEIGHT_DIFF_COEFFICIENT * averageWeightDiff);
+        return (NEATController.COMPATIBILITY_THRESHOLD > compatibility);
     }
 
     // Select a random agent
@@ -57,7 +51,7 @@ public class Species
         Agent child;
 
         // Only mutation
-        if (rand.NextDouble() < ONLY_MUTATION_RATE)
+        if (rand.NextDouble() < NEATController.ONLY_MUTATION_RATE)
         {
             GameObject offspring = GameObject.Instantiate(offspringObject, Population.SpawnLocation, Quaternion.identity);
             Agent randomAgent = SelectRandomAgent();

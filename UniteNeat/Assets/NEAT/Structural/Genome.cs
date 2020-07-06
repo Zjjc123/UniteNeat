@@ -8,15 +8,6 @@ public class Genome
     private SortedDictionary<int, Node> nodes;
     private SortedDictionary<int, Connection> connections;
 
-    public static float PROBABILITY_PERTURBING;
-    public static float PERTURB_MAX;
-
-    public static float WEIGHT_MUTATION_RATE;
-    public static float NODE_MUTATION_RATE;
-    public static float CONNECTION_MUTATION_RATE;
-
-    public static float ENABLE_CHANCE;
-
     // Constructor
     public Genome()
     {
@@ -108,11 +99,11 @@ public class Genome
     {
         var rand = new Random();
 
-        if (rand.NextDouble() < NODE_MUTATION_RATE)
+        if (rand.NextDouble() < NEATController.NODE_MUTATION_RATE)
             WeightMutation();
-        if (rand.NextDouble() < NODE_MUTATION_RATE)
+        if (rand.NextDouble() < NEATController.NODE_MUTATION_RATE)
             NodeMutation();
-        if (rand.NextDouble() < CONNECTION_MUTATION_RATE)
+        if (rand.NextDouble() < NEATController.CONNECTION_MUTATION_RATE)
             ConnectionMutation();
     }
 
@@ -125,10 +116,10 @@ public class Genome
         {
             double r = rand.NextDouble();
             // If perturb
-            if (r < PROBABILITY_PERTURBING)
+            if (r < NEATController.PROBABILITY_PERTURBING)
             {
                 // Add plus or minus PERTURB_MAX
-                c.Weight += (float)rand.NextDouble() * PERTURB_MAX - PERTURB_MAX;
+                c.Weight += (float)rand.NextDouble() * NEATController.PERTURB_MAX - NEATController.PERTURB_MAX;
             }
             else
             {
@@ -364,7 +355,7 @@ public class Genome
                     if (!c1.Expressed && !c2.Expressed)
                     {
                         double r = rand.NextDouble();
-                        if (r < ENABLE_CHANCE)
+                        if (r < NEATController.ENABLE_CHANCE)
                         {
                             c2.Expressed = true;
                         }
