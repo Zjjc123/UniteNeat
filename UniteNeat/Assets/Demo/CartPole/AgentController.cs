@@ -63,7 +63,7 @@ public class AgentController : MonoBehaviour
 
         outputs = cartAgent.ForwardPropagate(inputs);
         
-        GetComponent<Rigidbody>().AddForce(new Vector3(outputs[1] - outputs[0] * 10, 0, 0));
+        GetComponent<Rigidbody>().AddForce(new Vector3(10*(outputs[1] - outputs[0]), 0, 0));
 
         cartAgent.Fitness = Time.time - StartTime;
 
@@ -71,6 +71,17 @@ public class AgentController : MonoBehaviour
         {
             cartAgent.Kill();
             _dead = true;
+            gameObject.SetActive(false);
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Border")
+        {
+            cartAgent.Kill();
+            _dead = true;
+            gameObject.SetActive(false);
         }
     }
 }
