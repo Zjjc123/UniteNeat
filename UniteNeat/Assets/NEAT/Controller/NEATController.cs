@@ -10,26 +10,26 @@ public class NEATController : MonoBehaviour
 
     // Genome
 
-    private static float PROBABILITY_PERTURBING = 0.9f;
-    private static float PERTURB_MAX = 0.02f;
+    public static float PROBABILITY_PERTURBING = 0.9f;
+    public static float PERTURB_MAX = 0.02f;
 
-    private static float WEIGHT_MUTATION_RATE = 0.8f;
-    private static float NODE_MUTATION_RATE = 0.03f;
-    private static float CONNECTION_MUTATION_RATE = 0.05f;
+    public static float WEIGHT_MUTATION_RATE = 0.8f;
+    public static float NODE_MUTATION_RATE = 0.03f;
+    public static float CONNECTION_MUTATION_RATE = 0.05f;
 
-    private static float ENABLE_CHANCE = 0.25f;
+    public static float ENABLE_CHANCE = 0.25f;
 
     // Species
 
-    private static float EXCESS_ADJOINT_COEFFICIENT = 1f;
-    private static float WEIGHT_DIFF_COEFFICIENT = 0.4f;
-    private static float COMPATIBILITY_THRESHOLD = 3f;
+    public static float EXCESS_ADJOINT_COEFFICIENT = 1f;
+    public static float WEIGHT_DIFF_COEFFICIENT = 0.4f;
+    public static float COMPATIBILITY_THRESHOLD = 3f;
 
-    private static float ONLY_MUTATION_RATE = 0.25f;
+    public static float ONLY_MUTATION_RATE = 0.25f;
 
     // Population
 
-    private static int UNIMPROVED_KILL = 15;
+    public static int UNIMPROVED_KILL = 15;
 
     private bool _initialized;
 
